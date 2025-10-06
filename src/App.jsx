@@ -17,31 +17,14 @@ export const goods = [
 
 export const App = () => {
   const [selectedGood, setSelectedGood] = useState('Jam');
+  const handleAdd = good => () => setSelectedGood(good);
 
-  const renderButton = good => {
-    if (good === selectedGood) {
-      return (
-        <button
-          data-cy="RemoveButton"
-          type="button"
-          className="button is-info"
-          onClick={() => setSelectedGood('')}
-        >
-          -
-        </button>
-      );
-    }
+  const handleRemove = () => {
+    setSelectedGood('');
+  };
 
-    return (
-      <button
-        data-cy="AddButton"
-        type="button"
-        className="button"
-        onClick={() => setSelectedGood(good)}
-      >
-        +
-      </button>
-    );
+  const handleClear = () => {
+    setSelectedGood('');
   };
 
   return (
@@ -57,7 +40,7 @@ export const App = () => {
             data-cy="ClearButton"
             type="button"
             className="delete ml-3"
-            onClick={() => setSelectedGood('')}
+            onClick={handleClear}
           />
         </h1>
       )}
@@ -71,7 +54,27 @@ export const App = () => {
                 good === selectedGood ? 'has-background-success-light' : ''
               }
             >
-              <td>{renderButton(good)}</td>
+              <td>
+                {good === selectedGood ? (
+                  <button
+                    data-cy="RemoveButton"
+                    type="button"
+                    className="button is-info"
+                    onClick={handleRemove}
+                  >
+                    -
+                  </button>
+                ) : (
+                  <button
+                    data-cy="AddButton"
+                    type="button"
+                    className="button"
+                    onClick={handleAdd(good)}
+                  >
+                    +
+                  </button>
+                )}
+              </td>
 
               <td data-cy="GoodTitle" className="is-vcentered">
                 {good}
@@ -83,3 +86,5 @@ export const App = () => {
     </main>
   );
 };
+
+export default App;
